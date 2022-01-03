@@ -31,7 +31,6 @@ namespace FGP
         Texture2D walkLeft;
         Texture2D walkRight;
 
-        // Texture2D menuBackground; // Main menu's background
         Texture2D background; // Gameplay's background
 
         Texture2D ball;
@@ -158,26 +157,7 @@ namespace FGP
         {
             GraphicsDevice.Clear(Color.White);
 
-            currentState.Draw(gameTime, spriteBatch);
-
-            /*
-            spriteBatch.Begin(this.camera);
-
-            spriteBatch.Draw(background, new Vector2 (-500, -500), Color.White);
-
-            spriteBatch.DrawString(Font, "Time Remaining: " + Math.Floor(timer).ToString(), new Vector2(2, 40), Color.Yellow); // Makes the timer visible and labels it as such. "Math.Floor" stops decimal places from appearing by rounding down.
-
-            foreach (Projectile proj in Projectile.projectiles)
-            { spriteBatch.Draw(ball, new Vector2(proj.Position.X - 48, proj.Position.Y - 48), Color.White); } // Draws a ball sprite onto every projectile that's fired, fires them from the player's center.
-
-            foreach (Enemy e in Enemy.enemies)
-            { e.anim.Draw(spriteBatch); } // Draws a skull sprite onto every enemy that' spawns.
-
-            if (!player.dead) // Draws the player's animations, but only if they're alive.
-            { player.anim.Draw(spriteBatch); } // Uses Player.cs's 'position' Vector2 to draw the player's sprite onto them.
-
-            spriteBatch.End();
-            */
+            currentState.Draw(gameTime, spriteBatch);                   
 
             base.Draw(gameTime);
         }

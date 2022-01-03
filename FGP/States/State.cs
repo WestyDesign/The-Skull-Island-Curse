@@ -13,14 +13,13 @@ namespace FGP.States
 {
     public abstract class State
     {
-        #region Fields
+        #region Variables
         protected ContentManager _content;
         protected GraphicsDevice _graphicsDevice;
         protected Game1 _game;
         #endregion
 
         #region Methods
-
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
         public abstract void PostUpdate(GameTime gameTime);
 

@@ -70,6 +70,11 @@ namespace FGP.States
                 component.Update(gameTime);
         }
 
+        public override void PostUpdate(GameTime gameTime)
+        {
+            // remove sprites if they're not needed
+        }
+
         private void QuitGameButton_Click(object sender, EventArgs e) // Closes the game when the quit button's pressed.
         {
             _game.Exit(); 

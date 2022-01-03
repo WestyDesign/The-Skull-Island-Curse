@@ -12,6 +12,9 @@ namespace FGP
     class Enemy
     {
         public static List<Enemy> enemies = new List<Enemy>(); // Allows the enemy class to be passed into ForEach loops in Game1.cs.
+        public int NumberOfHits { get; set; }
+        public int Radius => radius;
+
         protected Vector2 position = new Vector2(0, 0);
         protected int speed = 100;
 
@@ -20,8 +23,6 @@ namespace FGP
         protected Color color;
 
         public SpriteAnimation anim;
-        public int NumberOfHits { get; set; }
-        public int Radius => radius;
 
         public Enemy(Vector2 newPos, Texture2D spriteSheet, Color color)
         {
@@ -59,8 +60,8 @@ namespace FGP
     {
         public StrongerEnemy(Vector2 newPos, Texture2D spriteSheet, Color color) : base(newPos, spriteSheet, color)
         {
-            speed = 80;
-            NumberOfHits = 2;
+            speed = 80; 
+            NumberOfHits = 2; // Slightly stronger enemies (red) can be killed in two hits.
         }        
     }
 
@@ -69,7 +70,7 @@ namespace FGP
         public StrongestEnemy(Vector2 newPos, Texture2D spriteSheet, Color color) : base(newPos, spriteSheet, color)
         {
             speed = 50;
-            NumberOfHits = 3;
+            NumberOfHits = 3; // The strongest enemies (purple) must be killed in three hits.
         }
     }
 }
