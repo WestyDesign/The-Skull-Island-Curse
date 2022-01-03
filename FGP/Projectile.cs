@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace FGP
 {
+    enum Dir // Contains the directions that the player and enemies can move in - only four so that the game is a bit more challenging.
+    { Down, Up, Left, Right }
+
     class Projectile
     {
         public static List<Projectile> projectiles = new List<Projectile>(); // Allows the projectile class to be passed into ForEach loops in Game1.cs.
