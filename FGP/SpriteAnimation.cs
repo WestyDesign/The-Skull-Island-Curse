@@ -12,7 +12,7 @@ namespace FGP
     public class SpriteManager
     {
         /// <summary>
-        ///  Try to make all of these private or protected or something
+        ///  Try to make all of these private / protected
         /// </summary>
         protected Texture2D Texture;
         public Vector2 Position = Vector2.Zero;

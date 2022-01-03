@@ -12,16 +12,15 @@ namespace FGP
     class Enemy
     {
         public static List<Enemy> enemies = new List<Enemy>(); // Allows the enemy class to be passed into ForEach loops in Game1.cs.
-
         protected Vector2 position = new Vector2(0, 0);
         protected int speed = 100;
-        public SpriteAnimation anim;
+
         protected int radius = 30;
         protected bool dead = false;
         protected Color color;
 
+        public SpriteAnimation anim;
         public int NumberOfHits { get; set; }
-
         public int Radius => radius;
 
         public Enemy(Vector2 newPos, Texture2D spriteSheet, Color color)

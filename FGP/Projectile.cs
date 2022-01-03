@@ -13,9 +13,10 @@ namespace FGP
     {
         public static List<Projectile> projectiles = new List<Projectile>(); // Allows the projectile class to be passed into ForEach loops in Game1.cs.
 
+        public int radius = 15; // The size / hitbox of projectiles.
+
         private Vector2 position;
         private int speed = 400; // The speed at which projectiles travel.
-        public int radius = 15; // The size / hitbox of projectiles.
         private Dir direction;
         private bool collided = false;
 
