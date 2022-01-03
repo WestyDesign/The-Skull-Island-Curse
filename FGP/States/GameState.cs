@@ -7,17 +7,13 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Comora; // An open-source package for a camera.
 #endregion
 
 namespace FGP.States
 {
     public class GameState : State
     {
-
-
         Player player = new Player();
-        Camera camera;
 
         #region Texture2Ds
         Texture2D walkUp;
