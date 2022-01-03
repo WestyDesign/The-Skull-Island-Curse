@@ -12,25 +12,25 @@ using FGP.Controls;
 
 namespace FGP.States
 {
-    public class MenuState : State
+    public class Fail : State
     {
         private List<Component> _components;
-        Texture2D menuBackground;
+        Texture2D failBackground;
 
-        public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
+        public Fail(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
             var buttonTexture = _content.Load<Texture2D>("Menus/Button");
             var buttonFont = _content.Load<SpriteFont>("Fonts/timerFont");
-            menuBackground = _content.Load<Texture2D>("Menus/MainMenu");
+            failBackground = _content.Load<Texture2D>("Menus/You Died");
 
-            var playGameButton = new Button(buttonTexture, buttonFont)
+            var replayGameButton = new Button(buttonTexture, buttonFont)
             {
                 Position = new Vector2(400, 580),
-                Text = "Play Game",
+                Text = "Try Again?",
             };
 
-            playGameButton.Click += PlayButton_Click;
+            replayGameButton.Click += PlayButton_Click;
 
             var quitGameButton = new Button(buttonTexture, buttonFont)
             {
@@ -42,7 +42,7 @@ namespace FGP.States
 
             _components = new List<Component>()
             {
-                playGameButton,
+                replayGameButton,
                 quitGameButton,
             };
         }
@@ -51,7 +51,7 @@ namespace FGP.States
         {
             spriteBatch.Begin();
 
-            spriteBatch.Draw(menuBackground, new Vector2(0,-60), Color.White); // Draws the main menu background onto the screen
+            spriteBatch.Draw(failBackground, new Vector2(0, -60), Color.White); // Draws the main menu background onto the screen
 
             foreach (var component in _components) // Draws the two buttons onto the screen.
                 component.Draw(gameTime, spriteBatch);

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FGP
 {
-    public abstract class Component
+    public abstract class Component // Inherited by the buttons on the main menu.
     {
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
         public abstract void Update(GameTime gameTime);

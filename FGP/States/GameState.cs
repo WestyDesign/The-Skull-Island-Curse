@@ -30,7 +30,7 @@ namespace FGP.States
         #endregion
 
         SpriteFont Font; // Used for the timer and buttons.
-        private double timer = 90; // Gives the game a 90 second runtime, so that stronger enemies can come in at certain intervals.
+        private double timer = 80; // Counts down from 80; enemy spawns really ramp up in the last 20 seconds as a final challenge. Neat!
 
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base (game, graphicsDevice, content)
         {
@@ -62,8 +62,7 @@ namespace FGP.States
 
             spriteBatch.Draw(background, new Vector2(-500, -500), Color.White);
 
-            spriteBatch.DrawString(Font, "Time Remaining: " + Math.Floor(timer).ToString(), new Vector2(2, 40), Color.Yellow); // Makes the timer visible and labels it as such.
-                                                                                                                               // "Math.Floor" stops decimal places from appearing by rounding down.
+            spriteBatch.DrawString(Font, "Time Remaining: " + Math.Floor(timer).ToString(), new Vector2(2, 40), Color.Yellow); // Makes the timer visible and labels it as such. "Math.Floor" stops decimal places from appearing by rounding down.
 
             foreach (Projectile proj in Projectile.projectiles)
             { spriteBatch.Draw(ball, new Vector2(proj.Position.X - 48, proj.Position.Y - 48), Color.White); } // Draws a ball sprite onto every projectile that's fired and fires them from the player's center.
@@ -83,14 +82,17 @@ namespace FGP.States
             { timer -= gameTime.ElapsedGameTime.TotalSeconds; }
 
             if (timer <= 1) // Ends the game when the timer reaches 0.
-            { player.dead = true; } /// TODO: Send this to a 'win' screen, not kill the player
+            { _game.ChangeState(new Win(_game, _graphicsDevice, _content)); } // Sends the player to the 'win' screen when the timer reaches 0. They've done it!
+
+            if(player.dead == true)
+            { _game.ChangeState(new Fail(_game, _graphicsDevice, _content)); } // Sends the player to the 'lose' screen when they're hit by an enemy.
 
             player.Update(gameTime); // Constantly updates player movement using the switch statement in Player.cs.
 
-            if (!player.dead) // Only runs this code if the player's alive.
+            if (!player.dead) // Only runs this code if the player is ALIVE.
             { Controller.Update(gameTime, skull); } // Uses Controller.cs to spawn enemies every few seconds.
 
-            // timer.Position = player.Position - new Vector2(100, 100); // Will follow the player, hopefully.
+            // timer.Position = player.Position - new Vector2(100, 100); // Will make the timer follow the player, hopefully.
 
             foreach (Projectile proj in Projectile.projectiles)
             { proj.Update(gameTime); } // Updates every projectile that's fired to control their direction and speed, using the update method in Projectile.cs.

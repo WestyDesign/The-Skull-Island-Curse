@@ -14,7 +14,6 @@ namespace FGP
         private static double timer = 2D; // The time between enemy spawns.
         private static double maxTime = 2D;
         private static Random rand = new Random();
-        public bool inGame = false; // Used alongside main menu code, makes sure the player doesn't start the game immediately.
 
         public static void Update(GameTime gameTime, Texture2D spriteSheet)
         {
@@ -42,6 +41,7 @@ namespace FGP
                         Enemy.enemies.Add(new Enemy(new Vector2(rand.Next(-500, 2000), 2000), spriteSheet, Color.White));
                         break;
                 }
+
                 timer = maxTime; // Resets the timer every time an enemy spawns, so that they can spawn endlessly.
 
                 if (maxTime > 0.5)
