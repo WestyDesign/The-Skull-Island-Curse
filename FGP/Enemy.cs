@@ -19,7 +19,8 @@ namespace FGP
         protected int speed = 100;
 
         protected int radius = 30;
-        protected bool dead = false;
+        protected bool dead = false; // This bool is called then the enemy is shot.
+        protected bool wiped = false; // This bool is called when all enemies must be cleared from the screen.
         protected Color color;
 
         public SpriteAnimation anim;

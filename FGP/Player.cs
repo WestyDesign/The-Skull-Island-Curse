@@ -16,8 +16,9 @@ namespace FGP
         private Dir direction = Dir.Down; // Uses the enum in the Game1 class to give the player four directions to move in.
         private bool isMoving = false;
         private KeyboardState kStateOld = Keyboard.GetState();
-        public bool dead = false;
+        private bool grabbed = false; // Called when the player is touched by an enemy - triggers respawn.
 
+        public bool dead = false;
         public SpriteAnimation anim;
         public SpriteAnimation[] animations = new SpriteAnimation[4]; // An array that will be responsible for showing the animation corresponding to the direction the player is moving in.
 
@@ -29,6 +30,16 @@ namespace FGP
 
         public void setY(float newY)
         { position.Y = newY; }
+
+        public bool Grabbed // Makes the player respawn when an enemy gets too close.
+        {
+            get { return grabbed; }
+            set
+            {
+                grabbed = value;
+                position = new Vector2(400,300);
+            }
+        }
 
         public void Update(GameTime gameTime)
         {

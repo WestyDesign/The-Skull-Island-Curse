@@ -30,7 +30,8 @@ namespace FGP.States
         #endregion
 
         SpriteFont Font; // Used for the timer and buttons.
-        private double timer = 80; // Counts down from 80; enemy spawns really ramp up in the last 20 seconds as a final challenge. Neat!
+        private double timer = 90; // Counts down from 80; enemy spawns really ramp up in the last 20 seconds as a final challenge. Neat!
+        int Lives = 3; // The player has 3 lives to beat the game with - if all 3 are lost, it's game over.
 
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base (game, graphicsDevice, content)
         {
@@ -63,6 +64,7 @@ namespace FGP.States
             spriteBatch.Draw(background, new Vector2(-500, -500), Color.White);
 
             spriteBatch.DrawString(Font, "Time Remaining: " + Math.Floor(timer).ToString(), new Vector2(2, 40), Color.Yellow); // Makes the timer visible and labels it as such. "Math.Floor" stops decimal places from appearing by rounding down.
+            spriteBatch.DrawString(Font, "Lives Left: " + Lives.ToString(), new Vector2(2, 100), Color.White); // Makes the player's remaining lives visible and labels them as such.
 
             foreach (Projectile proj in Projectile.projectiles)
             { spriteBatch.Draw(ball, new Vector2(proj.Position.X - 48, proj.Position.Y - 48), Color.White); } // Draws a ball sprite onto every projectile that's fired and fires them from the player's center.
@@ -90,19 +92,27 @@ namespace FGP.States
             player.Update(gameTime); // Constantly updates player movement using the switch statement in Player.cs.
 
             if (!player.dead) // Only runs this code if the player is ALIVE.
-            { Controller.Update(gameTime, skull); } // Uses Controller.cs to spawn enemies every few seconds.
+            { EnemyController.Update(gameTime, skull); } // Uses Controller.cs to spawn enemies every few seconds.
 
             // timer.Position = player.Position - new Vector2(100, 100); // Will make the timer follow the player, hopefully.
 
             foreach (Projectile proj in Projectile.projectiles)
             { proj.Update(gameTime); } // Updates every projectile that's fired to control their direction and speed, using the update method in Projectile.cs.
 
-            foreach (Enemy e in Enemy.enemies) // Updates every enemy that spawns to control their speed and the player's position, using the update method in Enemy.cs.
+            foreach (Enemy e in Enemy.enemies) // Updates every enemy that spawns to control their speed toward the player's position, using the update method in Enemy.cs.
             {
                 e.Update(gameTime, player.Position, player.dead);
                 int sum = 32 + e.Radius;
-                if (Vector2.Distance(player.Position, e.Position) < sum)
-                { player.dead = true; } // Kills the player when they're touched by an enemy.
+
+                if (Vector2.Distance(player.Position, e.Position) < sum) // If the enemy touches the player...
+                {
+                    if (Lives > 0) // And if the player has at least 1 life remaining...
+                    {
+                        player.Grabbed = true; // Triggers the player's respawn.                    
+                        Lives--; // Removes one life from their current total.
+                        e.Dead = true; // Removes the enemy that killed the player so that they don't spam-kill them.
+                    }
+                }
             }
 
             foreach (Projectile proj in Projectile.projectiles)
@@ -120,7 +130,11 @@ namespace FGP.States
                     }
                 }
             }
-            Projectile.projectiles.RemoveAll(p => p.Collided); // Removes all projectiles that have 'collided' with an enemy from the game.
+
+            if(Lives == 0) // If the player's out of lives,
+            { player.dead = true; } // the game is over.
+
+            Projectile.projectiles.RemoveAll(p => p.Collided); // Removes all projectiles that have 'collided' with an enemy from the game.            
             Enemy.enemies.RemoveAll(e => e.Dead); // Removes all enemies that have 'collided' with an projectile from the game, because they're dead.           
         }
     }

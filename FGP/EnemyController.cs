@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace FGP
 {
-    class Controller
+    class EnemyController
     {
         private static double timer = 2D; // The time between enemy spawns.
         private static double maxTime = 2D;
