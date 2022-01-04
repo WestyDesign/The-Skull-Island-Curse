@@ -31,7 +31,9 @@ namespace FGP.States
 
         SpriteFont Font; // Used for the timer and buttons.
         private double timer = 90; // Counts down from 80; enemy spawns really ramp up in the last 20 seconds as a final challenge. Neat!
+
         int Lives = 3; // The player has 3 lives to beat the game with - if all 3 are lost, it's game over.
+        int Score = 0; // A score mechanic will encourage the player to defeat as many enemies as they can before time's up - and pickups will spawn when certain score values are reached.
 
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base (game, graphicsDevice, content)
         {
@@ -64,6 +66,7 @@ namespace FGP.States
             spriteBatch.Draw(background, new Vector2(-500, -500), Color.White);
 
             spriteBatch.DrawString(Font, "Time Remaining: " + Math.Floor(timer).ToString(), new Vector2(2, 40), Color.Yellow); // Makes the timer visible and labels it as such. "Math.Floor" stops decimal places from appearing by rounding down.
+            spriteBatch.DrawString(Font, "Score: " + Score.ToString(), new Vector2(2, 160), Color.White); // Makes the Score visible and labels it as such.
             spriteBatch.DrawString(Font, "Lives Left: " + Lives.ToString(), new Vector2(2, 100), Color.White); // Makes the player's remaining lives visible and labels them as such.
 
             foreach (Projectile proj in Projectile.projectiles)
@@ -110,6 +113,7 @@ namespace FGP.States
                     {
                         player.Grabbed = true; // Triggers the player's respawn.                    
                         Lives--; // Removes one life from their current total.
+                        Score -= 5; // Subtracts 5 points from score.
                         e.Dead = true; // Removes the enemy that killed the player so that they don't spam-kill them.
                     }
                 }
@@ -126,7 +130,10 @@ namespace FGP.States
                         proj.Collided = true;
 
                         if (enemy.NumberOfHits == 0)
+                        {
                             enemy.Dead = true;
+                            Score++; // Adds 1 point to score when an enemy is killed.
+                        }                          
                     }
                 }
             }
