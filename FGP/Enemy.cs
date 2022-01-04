@@ -16,7 +16,7 @@ namespace FGP
         public int Radius => radius;
 
         protected Vector2 position = new Vector2(0, 0);
-        protected int speed = 100;
+        protected int speed = 80;
 
         protected int radius = 30;
         protected bool dead = false; // This bool is called then the enemy is shot.
@@ -61,7 +61,7 @@ namespace FGP
     {
         public StrongerEnemy(Vector2 newPos, Texture2D spriteSheet, Color color) : base(newPos, spriteSheet, color)
         {
-            speed = 80; 
+            speed = 60; 
             NumberOfHits = 2; // Slightly stronger enemies (red) can be killed in two hits.
         }        
     }
@@ -70,7 +70,7 @@ namespace FGP
     {
         public StrongestEnemy(Vector2 newPos, Texture2D spriteSheet, Color color) : base(newPos, spriteSheet, color)
         {
-            speed = 50;
+            speed = 40;
             NumberOfHits = 3; // The strongest enemies (purple) must be killed in three hits.
         }
     }

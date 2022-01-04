@@ -18,6 +18,8 @@ namespace FGP
         private State currentState;
         private State nextState;
 
+        Player player = new Player();
+
         public void ChangeState(State state)
         { nextState = state; }
 
@@ -51,14 +53,17 @@ namespace FGP
             {
                 currentState = nextState;
                 nextState = null;
-            }
+            }                     
 
             currentState.Update(gameTime); // Runs the update method inside the current state's class.
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.White);
+            spriteBatch.Begin();               
+            spriteBatch.End();
+
+            GraphicsDevice.Clear(Color.LightSkyBlue);
             currentState.Draw(gameTime, spriteBatch);                   
             base.Draw(gameTime);
         }

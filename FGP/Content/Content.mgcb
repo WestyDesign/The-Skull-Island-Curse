@@ -164,7 +164,7 @@
 /processorParam:TextureFormat=Color
 /build:Player/walkUp.png
 
-#begin Sprites/background.png
+#begin Sprites/background2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -174,7 +174,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Sprites/background.png
+/build:Sprites/background2.png
 
 #begin Sprites/ball.png
 /importer:TextureImporter

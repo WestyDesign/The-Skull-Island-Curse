@@ -11,7 +11,7 @@ namespace FGP
 {
     class Player
     {
-        private Vector2 position = new Vector2(400, 300);
+        private Vector2 position = new Vector2(625, 400);
         private int speed = 300;
         private Dir direction = Dir.Down; // Uses the enum in the Game1 class to give the player four directions to move in.
         private bool isMoving = false;
@@ -37,7 +37,7 @@ namespace FGP
             set
             {
                 mustRespawn = value;
-                position = new Vector2(400,300);
+                position = new Vector2(625, 400);
             }
         }
 
@@ -82,19 +82,19 @@ namespace FGP
                 switch (direction) // Actually makes the player move after the buttons have been pressed.
                 {
                     case Dir.Up:
-                        if (position.Y > 200) // Stops the player from leaving the level boundaries.
+                        if (position.Y > 50) // Stops the player from leaving the northern level boundary.
                         { position.Y -= speed * dt; }
                         break;
                     case Dir.Down:
-                        if (position.Y < 1250) // Stops the player from leaving the level boundaries.
+                        if (position.Y < 700) // Stops the player from leaving the southern level boundary.
                         { position.Y += speed * dt; }
                         break;
                     case Dir.Left:
-                        if (position.X > 225) // Stops the player from leaving the level boundaries.
+                        if (position.X > 300) // Stops the player from leaving the western level boundary.
                         { position.X -= speed * dt; }
                         break;
                     case Dir.Right:
-                        if (position.X < 1275) // Stops the player from leaving the level boundaries.
+                        if (position.X < 950) // Stops the player from leaving the eastern level boundary.
                         { position.X += speed * dt; }
                         break;
                 }

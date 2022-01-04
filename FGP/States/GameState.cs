@@ -14,8 +14,6 @@ namespace FGP.States
     /// <summary>
     /// TODOs:
     /// Find a way to remove all enemies after getting a game over & trying again
-    /// Add a camera that follows the player
-    /// Have the player's UI follow them as the camera does
     /// Ask murray to have a look over the code
     /// Make the UML diagram once the game's done
     /// </summary>
@@ -30,7 +28,7 @@ namespace FGP.States
         Texture2D walkLeft;
         Texture2D walkRight;
 
-        Texture2D background; // Gameplay's background
+        Texture2D gameBackground;
         Texture2D skull;
 
         Texture2D ball; // projectile
@@ -47,7 +45,7 @@ namespace FGP.States
 
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base (game, graphicsDevice, content)
         {
-            background = _content.Load<Texture2D>("Sprites/background");
+            gameBackground = _content.Load<Texture2D>("Sprites/background2");
             Font = _content.Load<SpriteFont>("Fonts/timerFont");
 
             ball = _content.Load<Texture2D>("Sprites/ball"); // Projectile sprite.
@@ -74,7 +72,7 @@ namespace FGP.States
         {
             spriteBatch.Begin();
 
-            spriteBatch.Draw(background, new Vector2(-500, -500), Color.White);
+            spriteBatch.Draw(gameBackground, new Vector2(-125,-350), Color.White);
 
             spriteBatch.DrawString(Font, "Time Remaining: " + Math.Floor(timer).ToString(), new Vector2(2, 40), Color.Yellow); // Makes the timer visible and labels it as such. "Math.Floor" stops decimal places from appearing by rounding down.
             spriteBatch.DrawString(Font, "Lives Left: " + Lives.ToString(), new Vector2(2, 100), Color.Pink); // Makes the player's remaining lives visible and labels them as such.
@@ -115,9 +113,7 @@ namespace FGP.States
 
             if (!player.dead) // Only runs this code if the player is ALIVE.
             { EnemyController.Update(gameTime, skull); } // Uses Controller.cs to spawn enemies every few seconds.
-
-            // timer.Position = player.Position - new Vector2(100, 100); // Will make the timer follow the player, hopefully. Look into matrixes.
-
+         
             foreach (Projectile proj in Projectile.projectiles)
             { proj.Update(gameTime); } // Updates every projectile that's fired to control their direction and speed, using the update method in Projectile.cs.
 

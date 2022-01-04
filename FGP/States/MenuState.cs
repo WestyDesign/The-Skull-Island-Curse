@@ -16,6 +16,8 @@ namespace FGP.States
     {
         private List<Component> _components;
         Texture2D menuBackground;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
 
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
