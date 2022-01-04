@@ -11,13 +11,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace FGP.States
 {
-    /// <summary>
-    /// TODOs:
-    /// Find a way to remove all enemies after getting a game over & trying again
-    /// Ask murray to have a look over the code
-    /// Make the UML diagram once the game's done
-    /// </summary>
-
     public class GameState : State
     {
         Player player = new Player();
@@ -38,7 +31,7 @@ namespace FGP.States
         #endregion
 
         SpriteFont Font; // Used for the timer and buttons.
-        private double timer = 100; // Counts down from 100; enemy spawns really ramp up in the last 30 seconds as a final challenge. Neat!
+        private double timer = 110; // Counts down from 110; enemy spawns really ramp up in the last 30 seconds as a final challenge. Neat!
 
         int Lives = 3; // The player has 3 lives to beat the game with - if all 3 are lost, it's game over.
         int Score = 0; // A score mechanic will encourage the player to defeat as many enemies as they can before time's up - and pickups will spawn when certain score values are reached.
@@ -87,14 +80,14 @@ namespace FGP.States
             if (!player.dead) // Draws the player's animations, but only if they're alive.
             { player.anim.Draw(spriteBatch); } // Uses Player.cs's 'position' Vector2 to draw the player's sprite onto them.
 
-            if(Score >= 10)
-            { spriteBatch.Draw(boots, new Vector2(2, 220), Color.White); } // Draws a boots sprite onto the player's UI once their scores reaches 10 - makes it clear they've been upgraded.
+            if(Score >= 15)
+            { spriteBatch.Draw(boots, new Vector2(2, 220), Color.White); } // Draws a boots sprite onto the player's UI once their scores reaches 15 - makes it clear they've been upgraded.
 
-            if(Score >= 20)
-            { spriteBatch.Draw(slingshot, new Vector2(2, 320), Color.White);  } // Draws a slingshot sprite onto the player's UI once their score reaches 20 - makes it clear they've been upgraded.
+            if(Score >= 25)
+            { spriteBatch.Draw(slingshot, new Vector2(2, 320), Color.White);  } // Draws a slingshot sprite onto the player's UI once their score reaches 25 - makes it clear they've been upgraded.
 
-            if (Score >= 29)
-            { spriteBatch.Draw(clock, new Vector2(2, 420), Color.White); } // Draws a clock sprite onto the player's UI once their score reaches 29 - makes it clear they're about to have some time removed from the counter.
+            if (Score >= 37)
+            { spriteBatch.Draw(clock, new Vector2(2, 420), Color.White); } // Draws a clock sprite onto the player's UI once their score reaches 38 - makes it clear they're about to have some time removed from the counter.
             spriteBatch.End();
         }
 
@@ -136,8 +129,8 @@ namespace FGP.States
 
             foreach (Projectile proj in Projectile.projectiles)
             {
-                if(Score >= 20)
-                { proj.PoweredUp = true; } // Increases bullet speed when the player's score has reached 20.
+                if(Score >= 25)
+                { proj.PoweredUp = true; } // Increases bullet speed when the player's score has reached 25.
 
                 foreach (Enemy enemy in Enemy.enemies)
                 {
@@ -150,7 +143,7 @@ namespace FGP.States
                         if (enemy.NumberOfHits == 0)
                         {
                             enemy.Dead = true;
-                            Score++; // Adds 1 point to score when an enemy is killed.
+                            Score += enemy.ScoreReward;
                         }                          
                     }
                 }
@@ -159,12 +152,12 @@ namespace FGP.States
             if(Lives == 0) // If the player's out of lives,
             { player.dead = true; } // the game is over.
 
-            if(Score >= 10)
-            { player.SpeedUp(); } // Calls the SpeedUp method in the player class when the player's reached 10 points.
+            if(Score >= 15)
+            { player.SpeedUp(); } // Calls the SpeedUp method in the player class when the player's reached 15 points.
 
-            /// When the player's score reaches 20, their bullet speed is increased - see the Projectile foreach loop for the code.
+            /// When the player's score reaches 25, their bullet speed is increased - see the Projectile foreach loop for the code.
 
-            if (Score == 30)
+            if (Score == 40)
             { 
                 timer -= 10; // Shortens the timer by 10 seconds when the player's reached 30 points. Encourages an active playstyle.
                 Score = 0; // Sends score back to 0 - so this reward can be activated multiple times.

@@ -11,25 +11,58 @@ namespace FGP
 {
     public class SpriteManager
     {
-        /// <summary>
-        ///  TODO: Try to make all of these private / protected
-        /// </summary>
         protected Texture2D Texture;
-        public Vector2 Position = Vector2.Zero;
-        public Color Color = Color.White;
-        public Vector2 Origin;
-        public float Rotation = 0f;
-        public float Scale = 1f;
-        public SpriteEffects SpriteEffect;
+        private Vector2 position = Vector2.Zero;
+        private Color colour = Color.White;
+        private Vector2 origin;
+        private float rotation = 0f;
+        private float scale = 1f;
+        private SpriteEffects spriteEffect;
         protected Rectangle[] Rectangles;
         protected int FrameIndex = 0;
+
+        public Vector2 Position
+        {
+            get { return position; }
+            set { position = value; }
+        }
+
+        public Color Colour
+        {
+            get { return colour; }
+            set { colour = value; }
+        }
+
+        public Vector2 Origin
+        {
+            get { return origin; }
+            set { origin = value; }
+        }
+
+        public float Rotation
+        {
+            get { return rotation; }
+            set { rotation = value; }
+        }
+
+        public float Scale
+        {
+            get { return scale; }
+            set { scale = value; }
+        }
+
+        public SpriteEffects SpriteEffect
+        {
+            get { return spriteEffect; }
+            set { spriteEffect = value; }
+        }
 
         public SpriteManager(Texture2D Texture, int frames, Color color)
         {
             this.Texture = Texture;
             int width = Texture.Width / frames;
             Rectangles = new Rectangle[frames];
-            Color = color;
+            Colour = color;
 
             for (int i = 0; i < frames; i++)
                 Rectangles[i] = new Rectangle(i * width, 0, width, Texture.Height);
@@ -37,7 +70,7 @@ namespace FGP
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Position, Rectangles[FrameIndex], Color, Rotation, Origin, Scale, SpriteEffect, 0f);
+            spriteBatch.Draw(Texture, Position, Rectangles[FrameIndex], Colour, Rotation, Origin, Scale, SpriteEffect, 0f);
         }
     }
 

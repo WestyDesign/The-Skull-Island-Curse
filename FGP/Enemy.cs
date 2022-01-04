@@ -13,14 +13,13 @@ namespace FGP
     {
         public static List<Enemy> enemies = new List<Enemy>(); // Allows the enemy class to be passed into ForEach loops in Game1.cs.
         public int NumberOfHits { get; set; }
+        public int ScoreReward { get; set; }
         public int Radius => radius;
 
         protected Vector2 position = new Vector2(0, 0);
         protected int speed = 80;
-
         protected int radius = 30;
         protected bool dead = false; // This bool is called then the enemy is shot.
-        protected bool wiped = false; // This bool is called when all enemies must be cleared from the screen.
         protected Color color;
 
         public SpriteAnimation anim;
@@ -28,6 +27,7 @@ namespace FGP
         public Enemy(Vector2 newPos, Texture2D spriteSheet, Color color)
         {
             NumberOfHits = 1; // Regular enemies can be killed in one hit.
+            ScoreReward = 1;
             position = newPos;
             anim = new SpriteAnimation(spriteSheet, 10, color, 6);
         }
@@ -63,6 +63,7 @@ namespace FGP
         {
             speed = 60; 
             NumberOfHits = 2; // Slightly stronger enemies (red) can be killed in two hits.
+            ScoreReward = 2;
         }        
     }
 
@@ -72,6 +73,7 @@ namespace FGP
         {
             speed = 40;
             NumberOfHits = 3; // The strongest enemies (purple) must be killed in three hits.
+            ScoreReward = 3;
         }
     }
 }
