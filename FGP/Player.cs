@@ -16,7 +16,7 @@ namespace FGP
         private Dir direction = Dir.Down; // Uses the enum in the Game1 class to give the player four directions to move in.
         private bool isMoving = false;
         private KeyboardState kStateOld = Keyboard.GetState();
-        private bool grabbed = false; // Called when the player is touched by an enemy - triggers respawn.
+        private bool mustRespawn = false; // Called when the player is touched by an enemy - triggers respawn.
 
         public bool dead = false;
         public SpriteAnimation anim;
@@ -31,12 +31,12 @@ namespace FGP
         public void setY(float newY)
         { position.Y = newY; }
 
-        public bool Grabbed // Makes the player respawn when an enemy gets too close.
+        public bool MustRespawn // Makes the player respawn when an enemy gets too close.
         {
-            get { return grabbed; }
+            get { return mustRespawn; }
             set
             {
-                grabbed = value;
+                mustRespawn = value;
                 position = new Vector2(400,300);
             }
         }
@@ -120,5 +120,11 @@ namespace FGP
 
             kStateOld = kState; // Constantly updates the kState and kStateOld variables so that the current frame is kState, and the previous frame is kStateOld.
         }
+
+        public void SpeedUp() // Speed boost - will be a reward for eaching a score of 10.
+        { speed = 400; }
+
+        public void SlowDown() // Speed boost removal - when the player's score resets to 0, their speed returns to normal too.
+        { speed = 300; }
     }
 }

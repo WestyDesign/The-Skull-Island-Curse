@@ -18,9 +18,11 @@ namespace FGP
         public int radius = 15; // The size / hitbox of projectiles.
 
         private Vector2 position;
-        private int speed = 400; // The speed at which projectiles travel.
+        private int bulletSpeed = 400; // The speed at which projectiles travel.
+        private int increasedBulletSpeed = 600; // A secondary speed for bullets to travel at - after reaching a high enough score.
         private Dir direction;
         private bool collided = false;
+        private bool poweredUp = false;
 
         public Projectile(Vector2 newPos, Dir newDir)
         {
@@ -37,25 +39,54 @@ namespace FGP
             set { collided = value; }
         }
 
+        public bool PoweredUp
+        {
+            get { return poweredUp; }
+            set { poweredUp = value; }
+        }
+
         public void Update(GameTime gameTime)
         {
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            switch (direction) // Bullets will only move in the direction that they're fired from.
-            {
-                case Dir.Up:
-                    position.Y -= speed * dt;
-                    break;
-                case Dir.Down:
-                    position.Y += speed * dt;
-                    break;
-                case Dir.Left:
-                    position.X -= speed * dt;
-                    break;
-                case Dir.Right:
-                    position.X += speed * dt;
-                    break;
-            }
+                if(poweredUp == true)
+                {
+                    switch (direction) // Bullets will only move in the direction that they're fired from.
+                    {
+                        case Dir.Up:
+                            position.Y -= increasedBulletSpeed * dt;
+                            break;
+                        case Dir.Down:
+                            position.Y += increasedBulletSpeed * dt;
+                            break;
+                        case Dir.Left:
+                            position.X -= increasedBulletSpeed * dt;
+                            break;
+                        case Dir.Right:
+                            position.X += increasedBulletSpeed * dt;
+                            break;
+
+                    }
+                }
+                else
+                {
+                    switch (direction) // Bullets will only move in the direction that they're fired from.
+                    {
+                        case Dir.Up:
+                            position.Y -= bulletSpeed * dt;
+                            break;
+                        case Dir.Down:
+                            position.Y += bulletSpeed * dt;
+                            break;
+                        case Dir.Left:
+                            position.X -= bulletSpeed * dt;
+                            break;
+                        case Dir.Right:
+                            position.X += bulletSpeed * dt;
+                            break;
+
+                    }
+                }
         }
     }
 }

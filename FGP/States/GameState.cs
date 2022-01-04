@@ -11,6 +11,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace FGP.States
 {
+    /// <summary>
+    /// TODOs:
+    /// Find a way to remove all enemies after getting a game over & trying again
+    /// Add a camera that follows the player
+    /// Have the player's UI follow them as the camera does
+    /// Ask murray to have a look over the code
+    /// Make the UML diagram once the game's done
+    /// </summary>
+
     public class GameState : State
     {
         Player player = new Player();
@@ -24,13 +33,14 @@ namespace FGP.States
         Texture2D background; // Gameplay's background
         Texture2D skull;
 
-        Texture2D ball;
-        Texture2D slingshot;
-        Texture2D boots;
+        Texture2D ball; // projectile
+        Texture2D boots; // powerup 1
+        Texture2D slingshot; // powerup 2
+        Texture2D clock; // powerup 3
         #endregion
 
         SpriteFont Font; // Used for the timer and buttons.
-        private double timer = 90; // Counts down from 80; enemy spawns really ramp up in the last 20 seconds as a final challenge. Neat!
+        private double timer = 100; // Counts down from 100; enemy spawns really ramp up in the last 30 seconds as a final challenge. Neat!
 
         int Lives = 3; // The player has 3 lives to beat the game with - if all 3 are lost, it's game over.
         int Score = 0; // A score mechanic will encourage the player to defeat as many enemies as they can before time's up - and pickups will spawn when certain score values are reached.
@@ -42,8 +52,9 @@ namespace FGP.States
 
             ball = _content.Load<Texture2D>("Sprites/ball"); // Projectile sprite.
             skull = _content.Load<Texture2D>("Enemies/skull"); // Enemy sprite - variants with more health have different colours applied via code.
-            slingshot = _content.Load<Texture2D>("Sprites/Slingshot"); // Fire rate pickup sprite
+            clock = _content.Load<Texture2D>("Sprites/Clock"); // Fire rate pickup sprite
             boots = _content.Load<Texture2D>("Sprites/Boots"); // Speed boost pickup sprite
+            slingshot = _content.Load<Texture2D>("Sprites/Slingshot"); // Speed boost pickup sprite
 
             #region Player sprites and animations.
             walkUp = _content.Load<Texture2D>("Player/walkUp");
@@ -66,18 +77,26 @@ namespace FGP.States
             spriteBatch.Draw(background, new Vector2(-500, -500), Color.White);
 
             spriteBatch.DrawString(Font, "Time Remaining: " + Math.Floor(timer).ToString(), new Vector2(2, 40), Color.Yellow); // Makes the timer visible and labels it as such. "Math.Floor" stops decimal places from appearing by rounding down.
-            spriteBatch.DrawString(Font, "Score: " + Score.ToString(), new Vector2(2, 160), Color.White); // Makes the Score visible and labels it as such.
-            spriteBatch.DrawString(Font, "Lives Left: " + Lives.ToString(), new Vector2(2, 100), Color.White); // Makes the player's remaining lives visible and labels them as such.
+            spriteBatch.DrawString(Font, "Lives Left: " + Lives.ToString(), new Vector2(2, 100), Color.Pink); // Makes the player's remaining lives visible and labels them as such.
+            spriteBatch.DrawString(Font, "Score: " + Score.ToString(), new Vector2(2, 160), Color.LightGoldenrodYellow); // Makes the Score visible and labels it as such.          
 
             foreach (Projectile proj in Projectile.projectiles)
             { spriteBatch.Draw(ball, new Vector2(proj.Position.X - 48, proj.Position.Y - 48), Color.White); } // Draws a ball sprite onto every projectile that's fired and fires them from the player's center.
 
             foreach (Enemy e in Enemy.enemies)
-            { e.anim.Draw(spriteBatch); } // Draws a skull sprite onto every enemy that' spawns.
+            { e.anim.Draw(spriteBatch); } // Draws a skull sprite onto every enemy that spawns.
 
             if (!player.dead) // Draws the player's animations, but only if they're alive.
             { player.anim.Draw(spriteBatch); } // Uses Player.cs's 'position' Vector2 to draw the player's sprite onto them.
 
+            if(Score >= 10)
+            { spriteBatch.Draw(boots, new Vector2(2, 220), Color.White); } // Draws a boots sprite onto the player's UI once their scores reaches 10 - makes it clear they've been upgraded.
+
+            if(Score >= 20)
+            { spriteBatch.Draw(slingshot, new Vector2(2, 320), Color.White);  } // Draws a slingshot sprite onto the player's UI once their score reaches 20 - makes it clear they've been upgraded.
+
+            if (Score >= 29)
+            { spriteBatch.Draw(clock, new Vector2(2, 420), Color.White); } // Draws a clock sprite onto the player's UI once their score reaches 29 - makes it clear they're about to have some time removed from the counter.
             spriteBatch.End();
         }
 
@@ -97,7 +116,7 @@ namespace FGP.States
             if (!player.dead) // Only runs this code if the player is ALIVE.
             { EnemyController.Update(gameTime, skull); } // Uses Controller.cs to spawn enemies every few seconds.
 
-            // timer.Position = player.Position - new Vector2(100, 100); // Will make the timer follow the player, hopefully.
+            // timer.Position = player.Position - new Vector2(100, 100); // Will make the timer follow the player, hopefully. Look into matrixes.
 
             foreach (Projectile proj in Projectile.projectiles)
             { proj.Update(gameTime); } // Updates every projectile that's fired to control their direction and speed, using the update method in Projectile.cs.
@@ -111,7 +130,7 @@ namespace FGP.States
                 {
                     if (Lives > 0) // And if the player has at least 1 life remaining...
                     {
-                        player.Grabbed = true; // Triggers the player's respawn.                    
+                        player.MustRespawn = true; // Triggers the player's respawn.                    
                         Lives--; // Removes one life from their current total.
                         Score -= 5; // Subtracts 5 points from score.
                         e.Dead = true; // Removes the enemy that killed the player so that they don't spam-kill them.
@@ -121,6 +140,9 @@ namespace FGP.States
 
             foreach (Projectile proj in Projectile.projectiles)
             {
+                if(Score >= 20)
+                { proj.PoweredUp = true; } // Increases bullet speed when the player's score has reached 20.
+
                 foreach (Enemy enemy in Enemy.enemies)
                 {
                     int sum = proj.radius + enemy.Radius;
@@ -140,6 +162,18 @@ namespace FGP.States
 
             if(Lives == 0) // If the player's out of lives,
             { player.dead = true; } // the game is over.
+
+            if(Score >= 10)
+            { player.SpeedUp(); } // Calls the SpeedUp method in the player class when the player's reached 10 points.
+
+            /// When the player's score reaches 20, their bullet speed is increased - see the Projectile foreach loop for the code.
+
+            if (Score == 30)
+            { 
+                timer -= 10; // Shortens the timer by 10 seconds when the player's reached 30 points. Encourages an active playstyle.
+                Score = 0; // Sends score back to 0 - so this reward can be activated multiple times.
+                player.SlowDown(); // Calls the SlowDown method in the player class - how's that for a skull island curse? ;)
+            } 
 
             Projectile.projectiles.RemoveAll(p => p.Collided); // Removes all projectiles that have 'collided' with an enemy from the game.            
             Enemy.enemies.RemoveAll(e => e.Dead); // Removes all enemies that have 'collided' with an projectile from the game, because they're dead.           
