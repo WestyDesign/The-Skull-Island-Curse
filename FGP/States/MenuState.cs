@@ -15,7 +15,7 @@ namespace FGP.States
     public class MenuState : State
     {
         private List<Component> _components;
-        Texture2D menuBackground;
+        private Texture2D menuBackground;
         private GraphicsDeviceManager graphics;
 
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)

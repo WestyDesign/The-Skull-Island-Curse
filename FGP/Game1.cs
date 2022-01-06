@@ -18,8 +18,6 @@ namespace FGP
         private State currentState;
         private State nextState;
 
-        Player player = new Player();
-
         public void ChangeState(State state)
         { nextState = state; }
 

@@ -11,6 +11,8 @@ namespace FGP
 {
     public class SpriteManager
     {
+        #region Variables
+
         protected Texture2D Texture;
         private Vector2 position = Vector2.Zero;
         private Color colour = Color.White;
@@ -20,6 +22,10 @@ namespace FGP
         private SpriteEffects spriteEffect;
         protected Rectangle[] Rectangles;
         protected int FrameIndex = 0;
+
+        #endregion
+
+        #region Properties
 
         public Vector2 Position
         {
@@ -57,6 +63,9 @@ namespace FGP
             set { spriteEffect = value; }
         }
 
+        #endregion
+
+        #region Methods
         public SpriteManager(Texture2D Texture, int frames, Color color)
         {
             this.Texture = Texture;
@@ -72,14 +81,22 @@ namespace FGP
         {
             spriteBatch.Draw(Texture, Position, Rectangles[FrameIndex], Colour, Rotation, Origin, Scale, SpriteEffect, 0f);
         }
+
+        #endregion
     }
 
     public class SpriteAnimation : SpriteManager
     {
+        #region Variables
+
         private float timeElapsed;
         private bool IsLooping = true;
         private float timeToUpdate;
         public int FramesPerSecond { set { timeToUpdate = (1f / value); } }
+
+        #endregion
+
+        #region Methods
 
         public SpriteAnimation(Texture2D Texture, int frames, Color color, int fps) : base(Texture, frames, color) 
         { FramesPerSecond = fps; }
@@ -101,5 +118,7 @@ namespace FGP
 
         public void setFrame(int frame)
         { FrameIndex = frame; }
+
+        #endregion
     }
 }

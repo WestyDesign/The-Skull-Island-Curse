@@ -14,6 +14,7 @@ namespace FGP
 
     class Projectile
     {
+        #region Variables
         public static List<Projectile> projectiles = new List<Projectile>(); // Allows the projectile class to be passed into ForEach loops in Game1.cs.
         public int radius = 15; // The size / hitbox of projectiles.
 
@@ -24,11 +25,9 @@ namespace FGP
         private bool collided = false;
         private bool poweredUp = false;
 
-        public Projectile(Vector2 newPos, Dir newDir)
-        {
-            position = newPos;
-            direction = newDir;
-        }
+        #endregion
+
+        #region Properties
 
         public Vector2 Position
         { get { return position; } }
@@ -43,6 +42,16 @@ namespace FGP
         {
             get { return poweredUp; }
             set { poweredUp = value; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public Projectile(Vector2 newPos, Dir newDir)
+        {
+            position = newPos;
+            direction = newDir;
         }
 
         public void Update(GameTime gameTime)
@@ -88,5 +97,7 @@ namespace FGP
                     }
                 }
         }
+
+        #endregion
     }
 }

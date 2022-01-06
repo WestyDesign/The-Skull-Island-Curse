@@ -13,28 +13,23 @@ namespace FGP.States
 {
     public class GameState : State
     {
+        #region Variables
         Player player = new Player();
-
-        #region Texture2Ds
-        Texture2D walkUp;
-        Texture2D walkDown;
-        Texture2D walkLeft;
-        Texture2D walkRight;
-
-        Texture2D gameBackground;
-        Texture2D skull;
-
-        Texture2D ball; // projectile
-        Texture2D boots; // powerup 1
-        Texture2D slingshot; // powerup 2
-        Texture2D clock; // powerup 3
-        #endregion
-
-        SpriteFont Font; // Used for the timer and buttons.
+        private Texture2D walkUp;
+        private Texture2D walkDown;
+        private Texture2D walkLeft;
+        private Texture2D walkRight;
+        private Texture2D gameBackground;
+        private Texture2D skull;
+        private Texture2D ball; // projectile
+        private Texture2D boots; // powerup 1
+        private Texture2D slingshot; // powerup 2
+        private Texture2D clock; // powerup 3
+        private SpriteFont Font; // Used for the timer and buttons.
         private double timer = 110; // Counts down from 110; enemy spawns really ramp up in the last 30 seconds as a final challenge. Neat!
-
         int Lives = 3; // The player has 3 lives to beat the game with - if all 3 are lost, it's game over.
         int Score = 0; // A score mechanic will encourage the player to defeat as many enemies as they can before time's up - and pickups will spawn when certain score values are reached.
+        #endregion
 
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base (game, graphicsDevice, content)
         {
@@ -97,10 +92,10 @@ namespace FGP.States
             { timer -= gameTime.ElapsedGameTime.TotalSeconds; }
 
             if (timer <= 1) // Ends the game when the timer reaches 0.
-            { _game.ChangeState(new Win(_game, _graphicsDevice, _content)); } // Sends the player to the 'win' screen when the timer reaches 0. They've done it!
+            { _game.ChangeState(new WinState(_game, _graphicsDevice, _content)); } // Sends the player to the 'win' screen when the timer reaches 0. They've done it!
 
             if(player.dead == true)
-            { _game.ChangeState(new Fail(_game, _graphicsDevice, _content)); } // Sends the player to the 'lose' screen when they're hit by an enemy.
+            { _game.ChangeState(new FailState(_game, _graphicsDevice, _content)); } // Sends the player to the 'lose' screen when they're hit by an enemy.
 
             player.Update(gameTime); // Constantly updates player movement using the switch statement in Player.cs.
 

@@ -11,6 +11,8 @@ namespace FGP
 {
     class Player
     {
+        #region Variables
+
         private Vector2 position = new Vector2(625, 400);
         private int speed = 300;
         private Dir direction = Dir.Down; // Uses the enum in the Game1 class to give the player four directions to move in.
@@ -22,14 +24,12 @@ namespace FGP
         public SpriteAnimation anim;
         public SpriteAnimation[] animations = new SpriteAnimation[4]; // An array that will be responsible for showing the animation corresponding to the direction the player is moving in.
 
+        #endregion
+
+        #region Properties
+
         public Vector2 Position // Public, because the draw method in the main class needs to know the player's position so it can attach e to it. 
         { get { return position; } }
-
-        public void setX(float newX)
-        { position.X = newX; }
-
-        public void setY(float newY)
-        { position.Y = newY; }
 
         public bool MustRespawn // Makes the player respawn when an enemy gets too close.
         {
@@ -40,6 +40,16 @@ namespace FGP
                 position = new Vector2(625, 400);
             }
         }
+
+        #endregion
+
+        #region Methods
+
+        public void setX(float newX)
+        { position.X = newX; }
+
+        public void setY(float newY)
+        { position.Y = newY; }
 
         public void Update(GameTime gameTime)
         {
@@ -126,5 +136,7 @@ namespace FGP
 
         public void SlowDown() // Speed boost removal - when the player's score resets to 0, their speed returns to normal too.
         { speed = 300; }
+
+        #endregion
     }
 }

@@ -14,16 +14,18 @@ namespace FGP.Controls
 {
     public class Button : Component
     {
-        #region Privates
+        #region Variables
         private MouseState _currentMouse;
         private MouseState _previousMouse; // Checks what the mouse was previously doing so that a click & release starts the game, not just a click and hold.
         private bool _isHovering; // Checks if the mouse is hovering over a button
         private SpriteFont _font; // The font to be used on the buttons
         private Texture2D _texture;
+        public string Text { get; set; } // The text inside of the button - editable further down.
+        public event EventHandler Click;
         #endregion
 
-        #region Publics
-        public event EventHandler Click;
+        #region Properties
+
         public bool Clicked { get; private set; }
         public Color PenColour { get; set; }
         public Vector2 Position { get; set; }
@@ -31,7 +33,6 @@ namespace FGP.Controls
         public Rectangle Rectangle
         { get { return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height); } }
 
-        public string Text { get; set; } // The text inside of the button - editable further down.
         #endregion
 
         #region Methods
